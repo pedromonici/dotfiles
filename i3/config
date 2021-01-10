@@ -1,0 +1,245 @@
+# Set mod key
+set $mod Mod4
+
+# Set window title font
+font pango:System San Francisco Display Regular 10
+
+# Align window title
+title_align center
+
+# Window rules
+for_window [class="^.*"] border pixel 0
+for_window [title="Library"] floating enable
+hide_edge_borders   both
+
+# Drag floating windows (Mouse + $mod)
+floating_modifier $mod
+
+# Kill focused window
+bindsym $mod+Shift+q kill
+
+# Reload the configuration file
+bindsym $mod+Shift+c reload
+
+# Restart i3 session inplace
+bindsym $mod+Shift+r restart
+
+# Exit i3
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+
+# Open applications
+bindsym $mod+Return exec termite
+bindsym $mod+Print exec scrot -q 100 "/home/pedromonici/Pictures/%Y-%m-%d-%s-screenshot.png"
+bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot -s
+bindsym $mod+d exec rofi -show run -theme dracula -font "System San Francisco Display Regular 10"
+bindsym $mod+F3 exec ranger
+
+# Change window focus
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# Move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# Split window in horizontal
+bindsym $mod+Ctrl+h split h
+
+# Split window in vertical
+bindsym $mod+Ctrl+v split v
+
+# Enter fullscreen mode for the focused window
+bindsym $mod+f fullscreen toggle
+
+# Change window layout (Stacked, tabbed or toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# Toggle between tiling and floating
+bindsym $mod+Shift+space floating toggle
+
+# Change focus between tiling and floating windows
+bindsym $mod+space focus mode_toggle
+
+# Focus the parent container
+bindsym $mod+a focus parent
+
+# Set names for workspaces
+set $ws1 "1 Main"
+set $ws2 "2 Terminal"
+set $ws3 "3 Web"
+set $ws4 "4 Program"
+set $ws5 "5 Design"
+set $ws6 "6 Media"
+
+# Switch to workspaces
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+
+# Move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+
+# Open specific applications in floating mode
+for_window [title="alsamixer"] floating enable border pixel 1
+for_window [class="Lightdm-settings"] floating enable
+for_window [class="Pamac-manager"] floating enable
+
+# Pulse Audio controls
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
+
+# Sreen brightness controls
+bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
+bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
+
+# Touchpad controls
+#bindsym XF86TouchpadToggle exec /some/path/toggletouchpad.sh # toggle touchpad
+
+# Media player controls
+bindsym XF86AudioPlay exec playerctl play
+#bindsym XF86AudioPause exec playerctl pause  #is not working and I don't know why?!?!
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioStop exec playerctl pause
+bindsym XF86AudioPrev exec playerctl previous
+
+# Set shut down, restart and locking features
+bindsym $mod+0 mode "$mode_system"
+set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
+mode "$mode_system" {
+    bindsym l exec --no-startup-id i3exit lock, mode "default"
+    bindsym s exec --no-startup-id i3exit suspend, mode "default"
+    bindsym u exec --no-startup-id i3exit switch_user, mode "default"
+    bindsym e exec --no-startup-id i3exit logout, mode "default"
+    bindsym h exec --no-startup-id i3exit hibernate, mode "default"
+    bindsym r exec --no-startup-id i3exit reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id i3exit shutdown, mode "default"
+
+    # exit system mode: "Enter" or "Escape"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+# Resize window
+mode "resize" {
+  bindsym h resize shrink width 10 px or 10 ppt
+  bindsym j resize grow height 10 px or 10 ppt
+  bindsym k resize shrink height 10 px or 10 ppt
+  bindsym l resize grow width 10 px or 10 ppt
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+  bindsym $mod+r mode "default"
+}
+
+# Enter resize mode
+bindsym $mod+r mode "resize"
+
+# Theme colors
+# class                 border  backgr. text    indic.  child_border
+client.focused          #ff79c6 #ff79c6 #282a36 #ff79c6 #ff79c6
+client.focused_inactive #282a36 #282a36 #f8f8f2 #282a36 #282a36
+client.unfocused        #282a36 #282a36 #f8f8f2 #282a36 #282a36
+client.urgent           #ff5555 #ff5555 #282a36 #ff5555 #ff5555
+client.placeholder      #282a36 #282a36 #f8f8f2 #282a36 #282a36
+
+# status bar
+bar {
+    status_command  i3blocks -c /home/pedromonici/.i3/i3blocks/config
+    i3bar_command   i3bar -t
+    position        top
+    height          28
+    colors {
+        background  #282a36CC
+        separator   #676e7d
+        #                  border     bground     text
+        focused_workspace  #282a36CC  #282a36CC   #FFFFFF
+        inactive_workspace #282a36CC  #282a36CC   #676e7d
+        urgent_workspace   #282a36CC  #282a36CC   #e53935
+    }
+}
+
+# Run commands on startup
+exec_always --no-startup-id feh --bg-fill /home/pedromonici/Pictures/wallpaper_3.jpg
+#exec_always --no-startup-id compton -f
+exec_always --no-startup-id picom -f
+exec_always --no-startup-id xinput set-prop 10 356 -1
+exec_always --no-startup-id dunst /home/pedromonici/.config/dunst/dunstrc
+exec_always --no-startup-id xset s off
+exec_always --no-startup-id xset -dpms
+
+#############################
+### settings for i3-gaps: ###
+#############################
+
+# Define gaps between windows (inner / outer)
+gaps inner 20
+gaps outer -2
+
+# Additionally, you can issue commands with the following syntax. This is useful to bind keys
+# to changing the gap size.
+# gaps inner|outer current|all set|plus|minus <px>
+# gaps inner all set 10
+# gaps outer all plus 5
+
+# Smart gaps (gaps used if only more than one container on the workspace)
+#smart_gaps on
+
+# Smart borders (draw borders around container only if it is not the only container on this workspace) 
+# on|no_gaps (on=always activate and no_gaps=only activate if the gap size to the edge of the screen is 0)
+smart_borders on
+
+# Press $mod+Shift+g to enter the gap mode. Choose o or i for modifying outer/inner gaps. Press 
+# one of + / - (in-/decrement for current workspace) or 0 (remove gaps for current workspace).
+# If you also press Shift with these keys, the change will be global for all workspaces.
+set $mode_gaps Gaps: (o) outer, (i) inner
+set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
+set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
+bindsym $mod+Shift+g mode "$mode_gaps"
+
+mode "$mode_gaps" {
+        bindsym o      mode "$mode_gaps_outer"
+        bindsym i      mode "$mode_gaps_inner"
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+mode "$mode_gaps_inner" {
+        bindsym plus  gaps inner current plus 5
+        bindsym minus gaps inner current minus 5
+        bindsym 0     gaps inner current set 0
+
+        bindsym Shift+plus  gaps inner all plus 5
+        bindsym Shift+minus gaps inner all minus 5
+        bindsym Shift+0     gaps inner all set 0
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+mode "$mode_gaps_outer" {
+        bindsym plus  gaps outer current plus 5
+        bindsym minus gaps outer current minus 5
+        bindsym 0     gaps outer current set 0
+
+        bindsym Shift+plus  gaps outer all plus 5
+        bindsym Shift+minus gaps outer all minus 5
+        bindsym Shift+0     gaps outer all set 0
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
