@@ -1,5 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =3
-let g:netrw_dirhist_3='/home/pedromonici/.config/BraveSoftware/Brave-Browser'
-let g:netrw_dirhist_2='/home/pedromonici/.config/BraveSoftware'
-let g:netrw_dirhist_1='/home/pedromonici/.config'
